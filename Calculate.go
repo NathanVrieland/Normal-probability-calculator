@@ -1,0 +1,27 @@
+package main
+
+import (
+	"fmt"
+	"runtime"
+	"time"
+)
+
+func z(mean float64, stdev float64, value float64) float64 {
+	return (value - mean) / stdev
+}
+
+func main() {
+	var num_rectangles = 100000000
+	var mean, stdev, x0, xn float64
+	fmt.Println("Please enter:(mean stdev x0 xn)")
+	fmt.Scan(&mean)
+	fmt.Scan(&stdev)
+	fmt.Scan(&x0)
+	fmt.Scan(&xn)
+	Start :=time.Now()
+
+	fmt.Printf("%.16f\n", goGetSum(z(mean, stdev, x0),z(mean, stdev, xn), num_rectangles, runtime.NumCPU()))
+
+	duration := time.Since(Start)
+	fmt.Println("Compute Time: " + fmt.Sprint(duration))
+}
