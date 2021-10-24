@@ -1,3 +1,6 @@
+// Calculate.go
+// Author: Nathan Vrieland
+// Estimates probability by taking reimann sums of standard normal curve function
 package main
 
 import (
@@ -6,6 +9,7 @@ import (
 	"time"
 )
 
+// returns standard z-score 
 func z(mean float64, stdev float64, value float64) float64 {
 	return (value - mean) / stdev
 }

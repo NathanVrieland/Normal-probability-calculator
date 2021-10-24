@@ -1,9 +1,13 @@
+// reimann.go
+// Author: Nathan Vrieland
+// back-end functions for Calculate.go
 package main
 
 import (
 	"math"
 )
 
+// output of standardized normal curve f(x)
 func normal_distro(x float64) float64 {
 	var pi float64 = 3.14159265359
 	var ret float64 = -(x * x)
@@ -13,6 +17,7 @@ func normal_distro(x float64) float64 {
 	return ret
 }
 
+// returns: area of num rectanges between x0 and xn and outputs them to channel
 func getSum(x0 float64, xn float64, num int, channel chan float64) float64 {
 	var ret float64 = 0
 	var delta float64 = (xn - x0) / float64(num)
@@ -25,6 +30,8 @@ func getSum(x0 float64, xn float64, num int, channel chan float64) float64 {
 	return ret
 }
 
+// returns: area of num rectangles between x0 and xn
+// workload dividen among threads
 func goGetSum(x0 float64, xn float64, num int, threads int) float64 {
 	sums := make(chan float64)
 	var ret float64 = 0
