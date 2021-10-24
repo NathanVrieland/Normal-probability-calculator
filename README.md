@@ -2,9 +2,9 @@
 calculates probability from inputs {mean, standard deviation, lower bound, upper bound} using riemann sums
 
 # Usage
-compile `Calculate.go` using go compiler
+compile using go compiler
 ```
-go build Calculate.go
+go build Calculate.go reimann.go
 ```
 when executed, the user is prompted with 
 ```
