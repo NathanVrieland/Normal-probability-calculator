@@ -18,7 +18,7 @@ func normal_distro(x float64) float64 {
 }
 
 // returns: area of num rectanges between x0 and xn and outputs them to channel
-func getSum(x0 float64, xn float64, num int, channel chan float64) float64 {
+func getSum(x0 float64, xn float64, num int) float64 {
 	var ret float64 = 0
 	var delta float64 = (xn - x0) / float64(num)
 	var current float64 = x0
@@ -26,8 +26,11 @@ func getSum(x0 float64, xn float64, num int, channel chan float64) float64 {
 		ret += delta * normal_distro(current + (delta / 2))
 		current += delta
 	}
-	channel <- ret
 	return ret
+}
+
+func getSumMP(x0 float64, xn float64, num int, channel chan float64) {
+	channel <- getSum(x0, xn, num)
 }
 
 // returns: area of num rectangles between x0 and xn
@@ -37,7 +40,7 @@ func goGetSum(x0 float64, xn float64, num int, threads int) float64 {
 	var ret float64 = 0
 	var threadDelta float64 = (xn-x0) / float64(threads)
 	for i := 0; i < threads; i++ {
-		go getSum(x0 + (float64(i) * threadDelta), x0 + (float64(i) * threadDelta) + threadDelta, num / threads, sums)
+		go getSumMP(x0 + (float64(i) * threadDelta), x0 + (float64(i) * threadDelta) + threadDelta, num / threads, sums)
 	}
 	for i := 0; i < threads; i++ {
 		ret += <- sums
